@@ -1,5 +1,7 @@
 # Deploy and Host LibreDesk with Railway
 
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/libredesk-29-helpdesk-live-chat-postgres?referralCode=20H68q)
+
 LibreDesk is an open-source, self-hosted customer support desk: a shared inbox for email and live chat, with teams, automation rules, SLAs, canned responses, CSAT surveys, a help center and reports. This template runs LibreDesk on Railway with Postgres, Redis and persistent attachment storage, and sets the admin password before the app goes online.
 
 ## About Hosting LibreDesk
