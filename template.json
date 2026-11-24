@@ -1,0 +1,267 @@
+{
+ "name": "LibreDesk 2.9 (Helpdesk, Live Chat, Postgres, Redis)",
+ "idSeed": "LibreDesk 2.9 (Helpdesk, Live Chat, Postgres, Redis) / 2026-11-24",
+ "description": "Open-source omnichannel helpdesk: shared inbox, live chat, SLAs and CSAT.",
+ "category": "Other",
+ "tags": [
+  "libredesk",
+  "helpdesk",
+  "customer-support",
+  "live-chat",
+  "shared-inbox",
+  "ticketing",
+  "zendesk-alternative",
+  "postgres"
+ ],
+ "image": "https://cdn.jsdelivr.net/gh/abhinavxd/libredesk@v2.9.2/static/public/launcher-logo-black.png",
+ "upstream": {
+  "repo": "abhinavxd/libredesk",
+  "version": "v2.9.2",
+  "license": "AGPL-3.0",
+  "images": {
+   "libredesk": "libredesk/libredesk:v2.9.2@sha256:1c5a234b113b6fa7b4170219a4e1063d8a9e4a396d4811b2ea03fdfcd02c63de (2026-10-31)",
+   "postgres": "ghcr.io/railwayapp-templates/postgres-ssl:18.6@sha256:4fc833b43d2aaf6ecc9b18615f5533602b723a32d0e2efe2dae8ca0f7217c863",
+   "redis": "redis:8.2.11@sha256:b0b01167ff47bc3868e56a967895a26be4230891a1f42a78ab61cdd227accc8d"
+  },
+  "checked": "2026-11-24"
+ },
+ "services": {
+  "LibreDesk": {
+   "icon": "https://cdn.jsdelivr.net/gh/abhinavxd/libredesk@v2.9.2/static/public/launcher-logo-black.png",
+   "source": {
+    "repo": "baranberkay96/libredesk-railway",
+    "rootDirectory": "/services/libredesk"
+   },
+   "startCommand": null,
+   "preDeployCommand": null,
+   "healthcheckPath": "/health",
+   "healthcheckTimeout": 600,
+   "restartPolicyType": "ALWAYS",
+   "numReplicas": 1,
+   "cronSchedule": null,
+   "publicDomain": true,
+   "targetPort": 9000,
+   "tcpProxy": null,
+   "volume": {
+    "mountPath": "/libredesk/uploads"
+   },
+   "variables": {
+    "LIBREDESK_SYSTEM_USER_PASSWORD": {
+     "defaultValue": "${{secret(24, \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789\")}}-Ld7",
+     "description": "Password of the 'System' admin (10-72 chars, upper/lower/digit/special). Change it here and redeploy.",
+     "required": false
+    },
+    "LIBREDESK_APP__ENCRYPTION_KEY": {
+     "defaultValue": "${{secret(32, \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789\")}}",
+     "description": "Encrypts stored inbox and integration credentials. Exactly 32 chars; never change it.",
+     "required": false
+    },
+    "LIBREDESK_APP__ENV": {
+     "defaultValue": "prod",
+     "description": "Application environment.",
+     "required": false
+    },
+    "LIBREDESK_APP__LOG_LEVEL": {
+     "defaultValue": "info",
+     "description": "Log level (debug, info, warn, error).",
+     "required": false
+    },
+    "LIBREDESK_APP__CHECK_UPDATES": {
+     "defaultValue": "true",
+     "description": "Show a notice in the admin when a new LibreDesk release is out.",
+     "required": false
+    },
+    "LIBREDESK_DB__HOST": {
+     "defaultValue": "${{Postgres.PGHOST}}",
+     "description": "Postgres host (private network).",
+     "required": false
+    },
+    "LIBREDESK_DB__PORT": {
+     "defaultValue": "${{Postgres.PGPORT}}",
+     "description": "Postgres port.",
+     "required": false
+    },
+    "LIBREDESK_DB__USER": {
+     "defaultValue": "${{Postgres.PGUSER}}",
+     "description": "Postgres user.",
+     "required": false
+    },
+    "LIBREDESK_DB__PASSWORD": {
+     "defaultValue": "${{Postgres.PGPASSWORD}}",
+     "description": "Postgres password.",
+     "required": false
+    },
+    "LIBREDESK_DB__DATABASE": {
+     "defaultValue": "${{Postgres.PGDATABASE}}",
+     "description": "Postgres database.",
+     "required": false
+    },
+    "LIBREDESK_DB__SSL_MODE": {
+     "defaultValue": "disable",
+     "description": "TLS to Postgres (private network).",
+     "required": false
+    },
+    "LIBREDESK_REDIS__URL": {
+     "defaultValue": "${{Redis.REDIS_URL}}",
+     "description": "Redis for sessions, cache and queues.",
+     "required": false
+    },
+    "LIBREDESK_UPLOAD__PROVIDER": {
+     "defaultValue": "fs",
+     "description": "Attachments are stored on the service volume.",
+     "required": false
+    },
+    "LIBREDESK_UPLOAD__FS__UPLOAD_PATH": {
+     "defaultValue": "uploads",
+     "description": "Upload folder (the volume at /libredesk/uploads).",
+     "required": false
+    },
+    "PORT": {
+     "defaultValue": "9000",
+     "description": "Port LibreDesk listens on; the public domain points here.",
+     "required": false
+    },
+    "RAILWAY_DEPLOYMENT_DRAINING_SECONDS": {
+     "defaultValue": "15",
+     "description": "Time to finish in-flight messages on redeploy.",
+     "required": false
+    }
+   }
+  },
+  "Postgres": {
+   "icon": "https://devicons.railway.app/i/postgresql.svg",
+   "source": {
+    "image": "ghcr.io/railwayapp-templates/postgres-ssl:18.6@sha256:4fc833b43d2aaf6ecc9b18615f5533602b723a32d0e2efe2dae8ca0f7217c863"
+   },
+   "startCommand": null,
+   "preDeployCommand": null,
+   "healthcheckPath": null,
+   "healthcheckTimeout": null,
+   "restartPolicyType": "ON_FAILURE",
+   "restartPolicyMaxRetries": 10,
+   "numReplicas": 1,
+   "cronSchedule": null,
+   "publicDomain": false,
+   "targetPort": null,
+   "tcpProxy": null,
+   "volume": {
+    "mountPath": "/var/lib/postgresql/data"
+   },
+   "variables": {
+    "PGDATA": {
+     "defaultValue": "/var/lib/postgresql/data/pgdata",
+     "description": "Location where the database will be initialized",
+     "required": false
+    },
+    "PGHOST": {
+     "defaultValue": "${{RAILWAY_PRIVATE_DOMAIN}}",
+     "description": "Railway Private Domain Name.",
+     "required": false
+    },
+    "PGPORT": {
+     "defaultValue": "5432",
+     "description": "Port to connect to Postgres.",
+     "required": false
+    },
+    "PGUSER": {
+     "defaultValue": "${{ POSTGRES_USER }}",
+     "description": "Required variable for Data panel",
+     "required": false
+    },
+    "PGDATABASE": {
+     "defaultValue": "${{POSTGRES_DB}}",
+     "description": "Required variable for the data panel.",
+     "required": false
+    },
+    "PGPASSWORD": {
+     "defaultValue": "${{POSTGRES_PASSWORD}}",
+     "description": "Required variable for Data panel",
+     "required": false
+    },
+    "POSTGRES_DB": {
+     "defaultValue": "railway",
+     "description": "Default database created when image is started.",
+     "required": false
+    },
+    "DATABASE_URL": {
+     "defaultValue": "postgresql://${{PGUSER}}:${{POSTGRES_PASSWORD}}@${{RAILWAY_PRIVATE_DOMAIN}}:5432/${{PGDATABASE}}",
+     "description": "Private connection URL (LibreDesk uses the PG* variables).",
+     "required": false
+    },
+    "POSTGRES_USER": {
+     "defaultValue": "postgres",
+     "description": "User to connect to Postgres DB",
+     "required": false
+    },
+    "SSL_CERT_DAYS": {
+     "defaultValue": "820",
+     "description": "SSL certificate expiry in days.",
+     "required": false
+    },
+    "POSTGRES_PASSWORD": {
+     "defaultValue": "${{ secret(32, \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\") }}",
+     "description": "Password to connect to DB",
+     "required": false
+    },
+    "RAILWAY_DEPLOYMENT_DRAINING_SECONDS": {
+     "defaultValue": "60",
+     "description": "Allow Postgres to cleanly shut down",
+     "required": false
+    }
+   }
+  },
+  "Redis": {
+   "icon": "https://cdn.sanity.io/images/sy1jschh/production/0ce0bfdcfbdbf69662b1116671f97c2dd788b655-157x157.svg",
+   "source": {
+    "image": "redis:8.2.11@sha256:b0b01167ff47bc3868e56a967895a26be4230891a1f42a78ab61cdd227accc8d"
+   },
+   "startCommand": "/bin/sh -c \"rm -rf $RAILWAY_VOLUME_MOUNT_PATH/lost+found/ && exec docker-entrypoint.sh redis-server --requirepass $REDIS_PASSWORD --save 60 1 --dir $RAILWAY_VOLUME_MOUNT_PATH\"",
+   "preDeployCommand": null,
+   "healthcheckPath": null,
+   "healthcheckTimeout": null,
+   "restartPolicyType": "ON_FAILURE",
+   "restartPolicyMaxRetries": 10,
+   "numReplicas": 1,
+   "cronSchedule": null,
+   "publicDomain": false,
+   "targetPort": null,
+   "tcpProxy": null,
+   "volume": {
+    "mountPath": "/data"
+   },
+   "variables": {
+    "REDISHOST": {
+     "defaultValue": "${{RAILWAY_PRIVATE_DOMAIN}}",
+     "description": "Private network hostname of the Redis service.",
+     "required": false
+    },
+    "REDISPORT": {
+     "defaultValue": "6379",
+     "description": "Port that Redis listens on.",
+     "required": false
+    },
+    "REDISUSER": {
+     "defaultValue": "default",
+     "description": "Username for authenticating with Redis.",
+     "required": false
+    },
+    "REDIS_PASSWORD": {
+     "defaultValue": "${{ secret(32, \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\") }}",
+     "description": "Randomly generated password for authenticating with Redis.",
+     "required": false
+    },
+    "REDISPASSWORD": {
+     "defaultValue": "${{REDIS_PASSWORD}}",
+     "description": "Alias of REDIS_PASSWORD.",
+     "required": false
+    },
+    "REDIS_URL": {
+     "defaultValue": "redis://${{ REDISUSER }}:${{ REDIS_PASSWORD }}@${{ REDISHOST }}:${{ REDISPORT }}",
+     "description": "Private connection URL used by LibreDesk (sessions, cache, queues).",
+     "required": false
+    }
+   }
+  }
+ },
+ "buckets": []
+}
