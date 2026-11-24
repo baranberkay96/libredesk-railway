@@ -26,11 +26,11 @@ No required inputs. Generated: `LIBREDESK_SYSTEM_USER_PASSWORD` (24 alnum + `-Ld
 
 | Service | Idle RAM | Typical | CPU |
 |---|---|---|---|
-| LibreDesk | see report | 0.1–0.3 GB | low |
-| Postgres | ≈0.1 GB | 0.1–0.3 GB | low |
-| Redis | ≈0.03 GB | — | low |
+| LibreDesk | 0.05–0.11 GB measured | 0.1–0.3 GB | low |
+| Postgres | 0.08–0.12 GB measured | 0.1–0.3 GB | low |
+| Redis | 0.03 GB measured | — | low |
 
-Estimated cost ≈ $3–5/month + volumes. Minimum plan: Hobby (3 services); each fits Trial.
+Measured ≈ 0.2 GB idle in total → ≈ $2–4/month + volumes. Minimum plan: Hobby (3 services); each fits Trial.
 
 ## Verification checklist
 

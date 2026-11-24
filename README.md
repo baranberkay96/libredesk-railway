@@ -49,7 +49,7 @@ LibreDesk is a single Go binary with a Vue front end. It needs Postgres for conv
 
 **Live chat.** Create a live chat inbox and paste its widget snippet into your website; the widget talks to `https://{your-domain}`.
 
-**Scaling and upgrades.** Keep one LibreDesk replica (attachments live on the volume). The stack idles at roughly 0.25 GB RAM and fits the Trial plan per service. All configuration keys can be set as `LIBREDESK_SECTION__KEY` variables (see `config.sample.toml` upstream). To upgrade, eject the repo, change the image tag and digest in `services/libredesk/Dockerfile`, and redeploy; `libredesk --upgrade` runs before the server starts. Back up Postgres first.
+**Scaling and upgrades.** Keep one LibreDesk replica (attachments live on the volume). The stack idled at about 0.2 GB RAM in our tests and fits the Trial plan per service. All configuration keys can be set as `LIBREDESK_SECTION__KEY` variables (see `config.sample.toml` upstream). To upgrade, eject the repo, change the image tag and digest in `services/libredesk/Dockerfile`, and redeploy; `libredesk --upgrade` runs before the server starts. Back up Postgres first.
 
 ### Why Deploy LibreDesk on Railway?
 
